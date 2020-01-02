@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scan</title>
+</head>
+<body>
+  <main class="wrapper" style="padding-top:2em">
+
+
+
+    <section class="container" id="demo-content">
+      <h1 class="title">Scan QR Code from Video Camera</h1>
+
+      <div>
+        <a class="button" id="startButton">Start</a>
+        <a class="button" id="resetButton">Reset</a>
+      </div>
+
+      <div>
+        <video id="video" width="640" height="800" style="border: 1px solid gray"></video>
+      <div>
+
+        <form action="/user/transactions" accept-charset="UTF-8" data-remote="true" method="post"><input type="hidden" name="authenticity_token" value="ybwX1qTIqbsjSaJ1uYmWfW2KxckSrYXdUBqyDOiIEdZjnybzRFqQQqOILIwqpesq3x7rVQMz9JMXhVqGGU9G2w==">
+          <div>
+            <label for="transaction_invoice_photo">發票截圖</label>
+          </div>
+          <div>
+            <label for="transaction_invoice_num">發票號碼</label>
+            <input type="text" name="transaction[invoice_num]" id="transaction_invoice_num">
+          </div>
+          <div id="transaction-items">
+            <label>發票內容: </label>
+            
+            <div>
+              <input type="hidden" name="transaction[transaction_items_attributes][0][id]" id="transaction_transaction_items_attributes_0_id">
+              <label for="transaction_transaction_items_attributes_0_title">品項名稱</label>
+              <input type="text" name="transaction[transaction_items_attributes][0][title]" id="transaction_transaction_items_attributes_0_title">
+            </div>
+            <div>
+              <label for="transaction_transaction_items_attributes_0_quantity">品項數量</label>
+              <input type="text" name="transaction[transaction_items_attributes][0][quantity]" id="transaction_transaction_items_attributes_0_quantity">
+            </div>
+            <div>
+              <label for="transaction_transaction_items_attributes_0_price">品項單價</label>
+              <input type="text" name="transaction[transaction_items_attributes][0][price]" id="transaction_transaction_items_attributes_0_price">
+            </div>
+            <div>
+              <label for="transaction_transaction_items_attributes_0_total">品項總價</label>
+              <input type="text" name="transaction[transaction_items_attributes][0][total]" id="transaction_transaction_items_attributes_0_total">
+            </div>
+          </div>
+          <div>
+            <label for="transaction_amount">發票總價</label>
+            <input type="text" name="transaction[amount]" id="transaction_amount">
+          </div>
+          <div>
+            <label for="transaction_status">對獎狀態</label>
+            <input type="text" name="transaction[status]" id="transaction_status">
+          </div>
+          <div>
+            <input type="submit" name="commit" value="儲存" class="btn btn-primary" data-disable-with="儲存">
+          </div>
+        </form>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
+  <script src="index.js"></script>
+</body>
+</html>

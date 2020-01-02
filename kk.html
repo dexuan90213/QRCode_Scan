@@ -1,0 +1,17 @@
+    <label for="transaction_invoice_num">發票號碼</labelu>
+    <input type="text" name="transaction[invoice_num]" id="transaction_invoice_num">
+    <label>發票內容: </label>
+      <input type="hidden" name="transaction[transaction_items_attributes][0][id]" id="transaction_transaction_items_attributes_0_id">
+      <label for="transaction_transaction_items_attributes_0_title">品項名稱</label>
+      <input type="text" name="transaction[transaction_items_attributes][0][title]" id="transaction_transaction_items_attributes_0_title">
+      <label for="transaction_transaction_items_attributes_0_quantity">品項數量</label>
+      <input type="text" name="transaction[transaction_items_attributes][0][quantity]" id="transaction_transaction_items_attributes_0_quantity">
+      <label for="transaction_transaction_items_attributes_0_price">品項單價</label>
+      <input type="text" name="transaction[transaction_items_attributes][0][price]" id="transaction_transaction_items_attributes_0_price">
+      <label for="transaction_transaction_items_attributes_0_total">品項總價</label>
+      <input type="text" name="transaction[transaction_items_attributes][0][total]" id="transaction_transaction_items_attributes_0_total">
+    <label for="transaction_amount">發票總價</label>
+    <input type="text" name="transaction[amount]" id="transaction_amount">
+    <label for="transaction_status">對獎狀態</label>
+    <input type="text" name="transaction[status]" id="transaction_status">
+    <input type="submit" name="commit" value="儲存" class="btn btn-primary" data-disable-with="儲存">
