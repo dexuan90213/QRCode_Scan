@@ -1,26 +1,59 @@
-var scanedQRCode = []
+let scanedQRCode = []
+let video = document.createElement("video");
+let canvasElement = document.getElementById("canvas");
+let canvas = canvasElement.getContext("2d");
+let outputData = document.getElementById("outputData");
+
+function drawLine(begin, end, color) {
+  canvas.beginPath();
+  canvas.moveTo(begin.x, begin.y);
+  canvas.lineTo(end.x, end.y);
+  canvas.lineWidth = 4;
+  canvas.strokeStyle = color;
+  canvas.stroke();
+}
+
+function tick() {
+  if (video.readyState === video.HAVE_ENOUGH_DATA) {
+
+    canvasElement.height = video.videoHeight;
+    canvasElement.width = video.videoWidth;
+    canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+    let imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+    let code = jsQR(imageData.data, imageData.width, imageData.height, {
+      inversionAttempts: "dontInvert",
+    });
+    if (code) {
+      drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
+      drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
+      drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
+      drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+      insertQRCodeData(code.data)
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
-  let selectedDeviceId
-  const codeReader = new ZXing.BrowserQRCodeReader()
-
-  codeReader.getVideoInputDevices()
-    .then((videoInputDevices) => {
-      selectedDeviceId = videoInputDevices[videoInputDevices.length - 1].deviceId
-    })
-
     document.querySelector('#startButton').addEventListener('click', () => {
-      decodeContinuously(codeReader, selectedDeviceId)
+      // Use facingMode: environment to attemt to get the front camera on phones
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
+        window.stream = stream
+        video.srcObject = stream;
+        video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+        video.play();
+        canvasElement.hidden = false;
+        requestAnimationFrame(tick);
+      });
       scanedQRCode = []
     })
 })
 
-function decodeContinuously(codeReader, selectedDeviceId) {
-  codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result) => {
-    if (result) {
-      console.log(result)
-      scanedQRCode.push(result.text)
+function insertQRCodeData(codeData) {
+      scanedQRCode.push(codeData)
       let invoiceQRCode =  scanedQRCode.filter(unique).sort().reverse()
+      console.log(scanedQRCode)
 
       if (/^[A-Z]{2}\d{8}/.test(invoiceQRCode[0]) && invoiceQRCode.length === 2) {
         let fullInvoiceNumner = invoiceQRCode.join('')
@@ -74,11 +107,10 @@ function decodeContinuously(codeReader, selectedDeviceId) {
 
           if (productAry.length > 1 && idx < productAry.length - 1) document.querySelector('#transaction-items').insertAdjacentHTML('beforeend', temp)
         })
-        codeReader.reset()
+        window.stream.getTracks().forEach(track => track.stop());
+        canvasElement.hidden = true;
         scanedQRCode = []
-      }
-    }
-  })
+  }
 }
 
 function unique(value, index, self) {

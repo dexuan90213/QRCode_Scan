@@ -14,13 +14,14 @@
       <h1 class="title">Scan QR Code from Video Camera</h1>
 
       <div>
+
         <a class="button" id="startButton">Start</a>
         <a class="button" id="resetButton">Reset</a>
       </div>
 
       <div>
-        <video id="video" width="640" height="800" style="border: 1px solid gray"></video>
-      <div>
+        <canvas id="canvas" hidden></canvas>
+      </div>
 
         <form action="/user/transactions" accept-charset="UTF-8" data-remote="true" method="post"><input type="hidden" name="authenticity_token" value="ybwX1qTIqbsjSaJ1uYmWfW2KxckSrYXdUBqyDOiIEdZjnybzRFqQQqOILIwqpesq3x7rVQMz9JMXhVqGGU9G2w==">
           <div>
@@ -69,7 +70,8 @@
   </main>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
-  <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
-  <script src="index.js"></script>
+  <!-- <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script> -->
+  <script src="jsQR.js"></script>
+  <script src="jsQ.js"></script>
 </body>
 </html>
